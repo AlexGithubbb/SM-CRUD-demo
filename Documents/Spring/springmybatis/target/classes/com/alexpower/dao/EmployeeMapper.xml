@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.alexpower.dao.EmployeeMapper">
+
+	<resultMap type="employee" id="result">
+		<result property="fullname" column="fullname"
+			jdbcType="VARCHAR" />
+		<result property="email" column="email" jdbcType="VARCHAR" />
+		<result property="gender" column="gender" jdbcType="VARCHAR" />
+		<result property="hobbies" column="hobbies" jdbcType="VARCHAR" />
+		<result property="country" column="country" jdbcType="VARCHAR" />
+		<result property="address" column="address" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<!-- here we can apply the alias name we defined before in mybatis-config.xml 
+		to resultType -->
+	<select id="getAllEmployees" resultType="employee"
+		resultMap="result">
+		SELECT * FROM employee;
+	</select>
+
+	<select id="getSingleEmployee" parameterType="int"
+		resultMap="result" resultType="employee">
+		SELECT * FROM employee where id = #{employeeId}
+	</select>
+
+
+	<!-- insert statement -->
+	<insert id="insertEmployee" parameterType="employee"
+		keyProperty="id" useGeneratedKeys="true">
+		INSERT INTO employee(fullname, email, gender, hobbies, country, address)
+		VALUES
+		(#{fullname}, #{email}, #{gender}, #{hobbies}, #{country}, #{address})
+	</insert>
+
+
+	<delete id="deleteEmployee" parameterType="int">
+		DELETE FROM employee WHERE id = #{employeeId}
+	</delete>
+
+
+	<update id="updateEmployee" parameterType="employee">
+		UPDATE employee SET fullname = #{fullname}, 
+		email = #{email}, 
+		gender = #{gender}, 
+		hobbies = #{hobbies},
+		country = #{country}, 
+		address = #{address}
+		WHERE id = #{id}
+	</update>
+
+</mapper>
